@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>在Js中获取app中的useragent - Brandy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="项目场景:在开发中，ios、andorid的app和m站都需要使用同一个h5页面。
+但是在app中不需要使用h5的返回按钮，而m站需要一个返回按钮。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在Js中获取app中的useragent">
+<meta property="og:url" content="http://jttbrandy.com/2016/03/17/webview-ua/index.html">
+<meta property="og:site_name" content="Brandy">
+<meta property="og:description" content="项目场景:在开发中，ios、andorid的app和m站都需要使用同一个h5页面。
+但是在app中不需要使用h5的返回按钮，而m站需要一个返回按钮。">
+<meta property="og:updated_time" content="2016-03-17T06:49:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在Js中获取app中的useragent">
+<meta name="twitter:description" content="项目场景:在开发中，ios、andorid的app和m站都需要使用同一个h5页面。
+但是在app中不需要使用h5的返回按钮，而m站需要一个返回按钮。">
+  
+  
+    <link rel="icon" href="/favicon.png?v=1">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo" href="/"></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://jttbrandy.com"></form>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-webview-ua" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      在Js中获取app中的useragent
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/03/17/webview-ua/" class="article-date">
+  <time datetime="2016-03-17T03:50:37.000Z" itemprop="datePublished">2016-03-17</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>项目场景:<br>在开发中，ios、andorid的app和m站都需要使用同一个h5页面。<br>
+但是在app中不需要使用h5的返回按钮，而m站需要一个返回按钮。
+<br><a id="more"></a></p>
+<hr>
+<p>基于以上需求我需要判断当前是否在app中调用。<br>那么怎么才能让h5和页面交互那。通过调查得知可以在js中获得webview的useragent信息。给useragent添加一个标示符，在js中判断不久好了嘛！</p>
+<hr>
+<p>####<a href="http://www.xuebuyuan.com/2191512.html" target="_blank" rel="external">IOS中在现在的useragent上加上新的表示信息，方法如下：</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];</span><br><span class="line">NSString *oldAgent = [webView stringByEvaluatingJavaScriptFromString:@&quot;navigator.userAgent&quot;];</span><br><span class="line">NSLog(@&quot;old agent :%@&quot;, oldAgent);</span><br><span class="line"></span><br><span class="line">//add my info to the new agent</span><br><span class="line">NSString *newAgent = [oldAgent stringByAppendingString:@&quot; tiantian/2.4.7 ch_appstore&quot;];</span><br><span class="line">NSLog(@&quot;new agent :%@&quot;, newAgent);</span><br><span class="line"></span><br><span class="line">//regist the new agent</span><br><span class="line">NSDictionary *dictionnary = [[NSDictionary alloc] initWithObjectsAndKeys:newAgent, @&quot;UserAgent&quot;, nil];</span><br><span class="line">[[NSUserDefaults standardUserDefaults] registerDefaults:dictionnary];    </span><br></pre></td></tr></table></figure>
+<p>####Android设置如下：(忘记原文链接了)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">WebVIew mWebView = new WebView(context);</span><br><span class="line">//先用webview的getSettings()取得webSettings再用getUserAgentString()</span><br><span class="line">//取得userAgent，這邊取出來的值會跟在網頁用js的navigator.userAgent取的</span><br><span class="line">//值是一樣的</span><br><span class="line">String userAgentStr = mWebView.getSettings().getUserAgentString();</span><br><span class="line">//之後用setUserAgentString()設定新的userAgent</span><br><span class="line">//這邊設定新的UserAgent的時候用記得用舊的UserAgent去加入新的字串</span><br><span class="line">//不然UserAgent的瀏覽器及系統訊息都會被你設定的新字串覆蓋過去</span><br><span class="line">mWebView.getSettings().setUserAgentString(userAgentStr+&quot;/tiantian&quot;);</span><br></pre></td></tr></table></figure>
+<hr>
+<p>在js进行如下判断：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> function() &#123;</span><br><span class="line">	var userAgent = navigator.userAgent;</span><br><span class="line">	//判断是否在移动端</span><br><span class="line"> 	if(userAgent.indexOf(&quot;tiantian&quot;) &gt;= 0 )&#123;</span><br><span class="line">   	userAgentMessage = &quot;app&quot;;</span><br><span class="line"> 	&#125; else &#123;</span><br><span class="line">   	userAgentMessage = &quot;other&quot;;</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/03/08/visiable-content/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">可见内容&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+ <div id="disqus_thread"></div>
+    <script>
+    /**
+     * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+     */
+        /*
+         var disqus_config = function () {
+         this.page.url = PAGE_URL; // Replace PAGE_URL with your page's canonical URL variable
+         this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+         };
+         */
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+
+        s.src = '//jttbrandy.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript> </section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div class="widget tag">
+    <h3 class="title">友情链接</h3>
+    <ul class="entry">
+<li><a href="http://donyyang.github.io/" title="dongdong's Blog">Yangdongdong</a></li>
+</ul>
+</div>
+    <div id="footer-info" class="inner">
+      &copy; 2016 jintiantian&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+    </span>
+    <span id="showDays"></span>
+    <script>
+var birthDay = new Date("03/03/2016");
+var now = new Date();
+var duration = now.getTime() - birthDay.getTime();
+var total= Math.floor(duration / (1000 * 60 * 60 * 24));
+document.getElementById("showDays").innerHTML = "本站已运行 "+total+" 天";
+</script>
+
+</footer>
+
+    
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
